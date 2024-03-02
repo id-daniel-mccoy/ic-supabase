@@ -217,11 +217,12 @@ export function Parent() {
         return;
     }
 
-    console.log("Adding cycles...");
+    console.log("Checking current balances...");
     console.log(actors.distro);
+    const balances = await actors.distro.getBalances();
+    console.log("The current balances of the canisters are: ", balances);
     const topupResult = await actors.distro.addCyclesToAll(amountInXDR);
-    console.log("The result of the topup is: ", topupResult);
-    // Todo: Show canister cycles balances.
+    console.log("The new balances of the canisters are: ", topupResult);
   }
 
   useEffect(() => {
