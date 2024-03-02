@@ -6,6 +6,8 @@ import {
     CreateCanisterResult
 } from 'azle/canisters/management';
 
+const canisterList: Array<string> = ["zks6t-giaaa-aaaap-qb7fa-cai", "iwo3a-kyaaa-aaaan-qeqta-cai"];
+
 $update;
 export async function addCycles(amount: bigint): Promise<Result<boolean, string>> {
     const callResult = await managementCanister
@@ -19,6 +21,21 @@ export async function addCycles(amount: bigint): Promise<Result<boolean, string>
         Ok: () => ({ Ok: true }),
         Err: (err) => ({ Err: err })
     });
+}
+
+$update;
+export async function addCyclesToAll(amount: bigint): Promise<string> {
+    const canisterCount = canisterList.length;
+    const topUpAmount = amount / BigInt(canisterCount);
+    for (const canisterId of canisterList) {
+        const callResult = await managementCanister
+            .deposit_cycles({
+                canister_id: Principal.from(canisterId),
+            })
+            .cycles(topUpAmount)
+            .call();
+    }
+    return "Success";
 }
 
 

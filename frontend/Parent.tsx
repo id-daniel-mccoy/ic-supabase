@@ -195,11 +195,13 @@ export function Parent() {
     const actualRate = conversionRate.data.xdr_permyriad_per_icp.toString();
     const requiredZeros = "00000000";
     const finalRate = Number(actualRate + requiredZeros);
-    const amountOfICP = 0.1;
+    // Amount of ICP requested from the user.
+    const amountOfICP = 0.01;
     const amountInXDR = amountOfICP * finalRate;
     console.log("The amount in XDR is: ", amountInXDR);
 
     console.log("Handling plug payment...");
+    // Note: Change to your Plug Address.
     const to = "7zdi6-6h2gk-g4j54-cigti-iiu4u-lj4vy-bewjf-oouoc-dnlck-fyfy5-aae";
     const amount = amountOfICP * 100000000;
     console.log(amount);
@@ -217,7 +219,7 @@ export function Parent() {
 
     console.log("Adding cycles...");
     console.log(actors.distro);
-    const topupResult = await actors.distro.addCycles(amountInXDR);
+    const topupResult = await actors.distro.addCyclesToAll(amountInXDR);
     console.log("The result of the topup is: ", topupResult);
     // Todo: Show canister cycles balances.
   }
